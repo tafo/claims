@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Goals Planner</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+      :root {
+        /* Primary Colors - Modern Blue/Teal Theme */
+        --primary-blue: #2563eb;
+        --primary-teal: #14b8a6;
+        --primary-purple: #8b5cf6;
+
+        /* Gradient Colors */
+        --gradient-start: #3b82f6;
+        --gradient-end: #8b5cf6;
+
+        /* Background Colors */
+        --bg-light-blue: #f0f9ff;
+        --bg-pale: #f8fafc;
+        --bg-white: #ffffff;
+        --bg-gray: #f1f5f9;
+
+        /* Border Colors */
+        --border-blue: #cbd5e1;
+        --border-light: #e2e8f0;
+
+        /* Text Colors */
+        --text-dark: #0f172a;
+        --text-medium: #475569;
+        --text-light: #94a3b8;
+
+        /* Accent Colors */
+        --accent-green: #10b981;
+        --accent-orange: #f97316;
+        --accent-purple: #8b5cf6;
+        --accent-pink: #ec4899;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: transparent;
+        color: var(--text-dark);
+        line-height: 1.6;
+      }
+
+      /* A4 Page Setup with Grid */
+      .page {
+        width: 210mm;
+        height: 297mm;
+        padding: 12mm 15mm;
+        margin: 0 auto;
+        background: transparent;
+        display: grid;
+        grid-template-rows: auto auto auto 1fr auto;
+        gap: 15px;
+        overflow: hidden;
+        border: 1px solid var(--border-light);
+      }
+
+      /* Header with Gradient */
+      .header {
+        background-color: #ec4899;
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        position: relative;
+      }
+
+      h1 {
+        font-family: "Raleway", sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.9);
+        margin-top: 5px;
+        letter-spacing: 2px;
+        text-align: right;
+      }
+
+      /* Date Section */
+      .date-section {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+
+      .date-card {
+        background: var(--bg-white);
+        border: 2px solid var(--border-light);
+        border-radius: 12px;
+        padding: 15px;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 8px;
+      }
+
+      .date-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--text-light);
+        font-weight: 600;
+      }
+
+      .date-field {
+        height: 40px;
+        border-bottom: 2px solid var(--accent-pink);
+        background: var(--bg-light-blue);
+        border-radius: 4px;
+      }
+
+      /* Goals Priority Section */
+      .priority-section {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+
+      .priority-card {
+        background: var(--bg-white);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        display: grid;
+        grid-template-rows: auto repeat(3, auto);
+        gap: 10px;
+      }
+
+      .priority-header {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+        border-radius: 8px;
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .high-priority .priority-header {
+        background: linear-gradient(135deg, var(--accent-orange), #fb923c);
+      }
+
+      .medium-priority .priority-header {
+        background: linear-gradient(135deg, var(--primary-blue), #60a5fa);
+      }
+
+      .low-priority .priority-header {
+        background: linear-gradient(135deg, var(--accent-green), #34d399);
+      }
+
+      .goal-item {
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        gap: 10px;
+        align-items: center;
+        padding: 8px;
+        background: var(--bg-gray);
+        border-radius: 8px;
+      }
+
+      .goal-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid;
+        border-radius: 6px;
+      }
+
+      .high-priority .goal-checkbox {
+        border-color: var(--accent-orange);
+      }
+
+      .medium-priority .goal-checkbox {
+        border-color: var(--primary-blue);
+      }
+
+      .low-priority .goal-checkbox {
+        border-color: var(--accent-green);
+      }
+
+      .goal-line {
+        height: 22px;
+        border-bottom: 1px solid var(--border-light);
+      }
+
+      /* Main Content Grid */
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      /* Time Blocks Section */
+      .timeblocks-section {
+        background: var(--bg-white);
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+
+      .section-header {
+        background: linear-gradient(
+          90deg,
+          var(--primary-purple),
+          var(--primary-purple)
+        );
+        color: white;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .timeblocks-grid {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        gap: 10px;
+      }
+
+      .timeblock {
+        background: var(--bg-light-blue);
+        border: 2px solid var(--border-light);
+        border-radius: 10px;
+        padding: 10px;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .timeblock-hour {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--primary-purple);
+        text-align: center;
+      }
+
+      .timeblock-content {
+        border-top: 1px solid var(--border-light);
+        padding-top: 5px;
+        height: 50px;
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        font-size: 10px;
+        color: var(--text-light);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Header -->
+      <div class="header">
+        <h1>Daily Goals Planner</h1>
+        <div class="subtitle">Melanie Fortuna Antaso</div>
+      </div>
+
+      <!-- Date Section -->
+      <div class="date-section">
+        <div class="date-card">
+          <div class="date-label">Date</div>
+          <div class="date-field"></div>
+        </div>
+        <div class="date-card">
+          <div class="date-label">Day of Week</div>
+          <div class="date-field"></div>
+        </div>
+        <div class="date-card">
+          <div class="date-label">Focus Word</div>
+          <div class="date-field"></div>
+        </div>
+      </div>
+
+      <!-- Goals Priority Section -->
+      <div class="priority-section">
+        <div class="priority-card high-priority">
+          <div class="priority-header">High Priority</div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+        </div>
+
+        <div class="priority-card medium-priority">
+          <div class="priority-header">Medium Priority</div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+        </div>
+
+        <div class="priority-card low-priority">
+          <div class="priority-header">Low Priority</div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+          <div class="goal-item">
+            <div class="goal-checkbox"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Time Blocks -->
+        <div class="timeblocks-section">
+          <div class="section-header">Time Blocks</div>
+          <div class="timeblocks-grid">
+            <div class="timeblock">
+              <div class="timeblock-hour">6-7 AM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">7-8 AM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">8-9 AM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">9-10 AM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">10-11 AM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">11-12 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">12-1 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">1-2 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">2-3 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">3-4 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">4-5 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">5-6 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">6-7 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">7-8 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">8-9 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+            <div class="timeblock">
+              <div class="timeblock-hour">9-10 PM</div>
+              <div class="timeblock-content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">tafostore.etsy.com</div>
+    </div>
+  </body>
+</html>
