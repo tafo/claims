@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Cleaning Checklist</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Cormorant Garamond", serif;
+        background: linear-gradient(to bottom, #fdfbf7, #f9f7f3);
+        padding: 40px 35px;
+        max-width: 850px;
+        margin: 0 auto;
+        color: #3a3a3a;
+      }
+
+      /* Decorative border frame */
+      .page-wrapper {
+        width: 8.5in;
+        height: 11in;
+        border: 2px solid #d4af37;
+        padding: 0.5in 0.6in;
+        background: transparent;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-wrapper::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border: 1px solid #e8d4a2;
+        pointer-events: none;
+      }
+
+      /* Elegant header */
+      .header {
+        text-align: center;
+        margin-bottom: 12px;
+        position: relative;
+        padding-bottom: 25px;
+      }
+
+      .header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          #d4af37,
+          transparent
+        );
+      }
+
+      .decorative-element {
+        font-size: 20px;
+        color: #d4af37;
+        margin-bottom: 10px;
+        letter-spacing: 8px;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 38px;
+        color: #2c2c2c;
+        font-weight: 400;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      /* Room sections */
+      .checklist-container {
+        margin-bottom: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .room-section {
+        margin-bottom: 12px;
+        position: relative;
+        padding-left: 25px;
+      }
+
+      .room-section::before {
+        content: "§";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #d4af37;
+        font-size: 18px;
+      }
+
+      .room-title {
+        font-family: "Playfair Display", serif;
+        font-size: 20px;
+        color: #2c2c2c;
+        margin-bottom: 15px;
+        letter-spacing: 1.5px;
+        position: relative;
+        padding-bottom: 8px;
+      }
+
+      .room-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 1px;
+        background: #d4af37;
+        opacity: 0.5;
+      }
+
+      .task-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        padding-left: 8px;
+      }
+
+      .checkbox {
+        width: 15px;
+        height: 15px;
+        border: 1px solid #c4a962;
+        margin-right: 15px;
+        display: inline-block;
+        background: #fdfbf7;
+        position: relative;
+        border-radius: 2px;
+      }
+
+      .task-text {
+        font-size: 16px;
+        color: #4a4a4a;
+        flex: 1;
+        font-weight: 300;
+        line-height: 1.4;
+      }
+
+      /* Notes section */
+      .notes-section {
+        position: relative;
+      }
+
+      .notes-title {
+        font-family: "Playfair Display", serif;
+        font-size: 18px;
+        color: #2c2c2c;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+      }
+
+      .notes-lines {
+        line-height: 32px;
+      }
+
+      .note-line {
+        border-bottom: 1px dotted #d4d4d4;
+        height: 32px;
+        width: 100%;
+        position: relative;
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        margin-top: 35px;
+        padding-top: 25px;
+        position: relative;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          #d4af37,
+          transparent
+        );
+      }
+
+      .motivation {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: #8b7355;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+
+      .footer-link {
+        color: #d4af37;
+        font-size: 24px;
+        margin-top: 24px;
+      }
+
+      .footer-ornament {
+        color: #d4af37;
+        font-size: 14px;
+        margin-top: 10px;
+        letter-spacing: 5px;
+      }
+
+      @media print {
+        body {
+          background: white;
+          padding: 15px;
+        }
+
+        .page-wrapper {
+          box-shadow: none;
+        }
+
+        .room-section {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <div class="header">
+        <div class="decorative-element">✦ ✦ ✦</div>
+        <h1>Daily Cleaning</h1>
+      </div>
+
+      <div class="checklist-container">
+        <div class="room-section">
+          <div class="room-title">Kitchen</div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text"
+              >Wash dishes with care & load dishwasher</span
+            >
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text"
+              >Polish countertops & stovetop to shine</span
+            >
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Refresh sink & brighten faucet</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text"
+              >Sweep floors with attention to corners</span
+            >
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Empty trash & replace liner if needed</span>
+          </div>
+        </div>
+
+        <div class="room-section">
+          <div class="room-title">Living Spaces</div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text"
+              >Return all items to their rightful homes</span
+            >
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text"
+              >Arrange cushions & fold throws artfully</span
+            >
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Vacuum or sweep main pathways</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Dust surfaces that catch the light</span>
+          </div>
+        </div>
+
+        <div class="room-section">
+          <div class="room-title">Bathroom Sanctuary</div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Wipe basin & vanity until gleaming</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Freshen toilet & sanitize surfaces</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Arrange towels in pleasing display</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Polish mirror to crystal clarity</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Empty waste basket if necessary</span>
+          </div>
+        </div>
+
+        <div class="room-section">
+          <div class="room-title">Bedroom Retreat</div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Make bed with hotel-worthy precision</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Gather clothing for laundry basket</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Clear & organize bedside tables</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text"
+              >Quick floor tidy for peaceful ambiance</span
+            >
+          </div>
+        </div>
+
+        <div class="room-section">
+          <div class="room-title">Final Flourishes</div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Ten-minute home reset & restoration</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Sort daily mail & papers</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Sanitize door handles & switches</span>
+          </div>
+          <div class="task-item">
+            <span class="checkbox"></span>
+            <span class="task-text">Prepare tomorrow's essentials</span>
+          </div>
+        </div>
+        <div class="notes-section">
+          <div class="notes-title">Today's Intentions & Notes</div>
+          <div class="notes-lines">
+            <div class="note-line"></div>
+            <div class="note-line"></div>
+            <div class="note-line"></div>
+            <div class="note-line"></div>
+            <div class="note-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p class="motivation">
+          "The ordinary acts we practice every day at home are of more
+          importance to the soul than their simplicity might suggest."
+        </p>
+        <p class="footer-link">tafostore.etsy.com</p>
+      </div>
+    </div>
+  </body>
+</html>
